@@ -1,16 +1,13 @@
-#include <iostream>
+#include <iostream>     // For input-output operations
 #include <unistd.h>     // For fork, getpid, execlp
 #include <sys/wait.h>   // For wait
 #include <cstdlib>      // For exit
 
 int main() {
-    // --- Parent Process Logic ---
-    
-    // Get the current process ID
-    pid_t currentPid = getpid();
+ 
 
-    // Fork 3 child processes
-    for(int i = 0; i < 3; i++) {
+    // Fork 2 child processes
+    for(int i = 0; i < 2; i++) {
         pid_t pid = fork();
 
         if (pid < 0) {
@@ -22,16 +19,21 @@ int main() {
             // --- Child Process Logic ---
             
             std::cout << i+1 << " Process ID: " << getpid() << std::endl;
-            exit(0); 
+            exit(0);  // Child process exits after printing its ID
         }
     }
 
     // --- Waiting Logic (Parent) ---
     
-    // Wait for all 3 child processes to finish
-    for(int i = 0; i < 3; i++) {
-        wait(NULL);
+    // Wait for 1 child process to finish
+    for(int i = 0; i < 1; i++) {
+          wait(NULL);
+         pid_t currentPid = getpid();
+          std::cout << "Parent Process ID is: " << currentPid << std::endl;
+        
     }
+
+
 
     return 0;
 }
