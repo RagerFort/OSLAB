@@ -23,6 +23,8 @@ int main(int argc, char *arg[])
     {
         // Child process
         printf("\nProcess ID is: %d\n", getpid());
+        printf("\nProcess ID is: %d\n", getpid());
+        printf("\nProcess ID is: %d\n", getpid());
         wait(NULL);
         exit(0);
     }

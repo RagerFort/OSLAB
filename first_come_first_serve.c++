@@ -8,16 +8,19 @@ int main()
     int bt[20], wt[20], tat[20], i, n;
     float wtavg = 0, tatavg = 0;
 
-    // Ask for number of processes
-    cout << "\nEnter the number of processes: ";
-    cin >> n;
+    n = 10;  // Number of processes
 
-    // Input Burst Times
-    for(i = 0; i < n; i++)
-    {
-        cout << "Enter Burst Time for Process " << i << ": ";
-        cin >> bt[i];
-    }
+    // Hardcoded Burst Times
+    bt[0] = 3;
+    bt[1] = 5;
+    bt[2] = 4;
+    bt[3] = 3;
+    bt[4] = 2;
+    bt[5] = 1;
+    bt[6] = 0;
+    bt[7] = 7;
+    bt[8] = 8;
+    bt[9] = 1;
 
     // First process always has 0 waiting time
     wt[0] = 0;
@@ -57,8 +60,8 @@ int main()
     
     // setprecision(2) ensures 2 decimal places, fixed ensures standard notation
     cout << fixed << setprecision(2);
-    cout << "\n\nAverage Waiting Time: " << (wtavg / n);
-    cout << "\nAverage Turnaround Time: " << (tatavg / n) << endl;
+    cout << "\n\nAverage Waiting Time(WT): " << (wtavg / n)<< "ms";
+    cout << "\nAverage Turnaround Time(TAT): " << (tatavg / n) <<"ms" << endl;
 
     return 0;
 }

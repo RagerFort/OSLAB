@@ -1,26 +1,33 @@
 #include <iostream>
-#include <iomanip> // Used for setprecision
+#include <iomanip>
+#include <string> // For to_string
 
 using namespace std;
 
 int main()
 {
-    int p[20], bt[20], wt[20], tat[20];
-    int i, k, n, temp;
+    int p[20];
+    float bt[20], wt[20], tat[20];
+    int i, k, n;
+    float temp;
     float wtavg, tatavg;
 
-    cout << "\nEnter the number of processes -- ";
-    cin >> n;
+    n = 5;  // Number of processes
 
-    // Input burst times
+    // Hardcoded burst times
+    bt[0] = 50.54;
+    bt[1] = 10.11;
+    bt[2] = 33.34;
+    bt[3] = 2.5;
+    bt[4] = 101.1;
+
+    // Set process IDs
     for(i = 0; i < n; i++)
     {
         p[i] = i;
-        cout << "Enter Burst Time for Process " << i << " -- ";
-        cin >> bt[i];
     }
 
-    // Sort job by burst time (SJF - Bubble Sort)
+    // Sort by burst time (SJF)
     for(i = 0; i < n; i++)
     {
         for(k = i + 1; k < n; k++)
@@ -36,6 +43,7 @@ int main()
                 temp = p[i];
                 p[i] = p[k];
                 p[k] = temp;
+                // temp is used for both burst time and process ID swapping
             }
         }
     }
@@ -43,28 +51,34 @@ int main()
     // Calculate waiting time and turnaround time
     wt[0] = 0;
     tat[0] = bt[0];
-    wtavg = 0;
-    tatavg = bt[0];
 
     for(i = 1; i < n; i++)
     {
         wt[i] = wt[i-1] + bt[i-1];
         tat[i] = tat[i-1] + bt[i];
-        wtavg = wtavg + wt[i];
-        tatavg = tatavg + tat[i];
+    }
+
+    // Calculate averages
+    wtavg = 0;
+    tatavg = 0;
+    for(i = 0; i < n; i++)
+    {
+        wtavg += wt[i];
+        tatavg += tat[i];
     }
 
     // Display results
-    cout << "\n\t PROCESS\tBURST TIME\tWAITING TIME\tTURNAROUND TIME\n";
+    cout << fixed << setprecision(2);
+    cout << string(60, '-') << endl;
+    cout << left << setw(15) << "PROCESS" << setw(15) << "BURST TIME" << setw(15) << "WAITING TIME" << setw(15) << "TURNAROUND TIME" << endl;
+    cout << string(60, '-') << endl;
     for(i = 0; i < n; i++)
     {
-        cout << "\n\t P" << p[i] << "\t\t" << bt[i] << "\t\t" << wt[i] << "\t\t" << tat[i];
+        cout << left << setw(15) << ("P" + to_string(p[i])) << setw(15) << bt[i] << setw(15) << wt[i] << setw(15) << tat[i] << endl;
     }
-
-    // Output formatting for decimals
-    cout << fixed << setprecision(2);
+    cout << string(60, '-') << endl;
     
-    cout << "\n\nAverage Waiting Time -- " << (wtavg / n);
+    cout << "\nAverage Waiting Time -- " << (wtavg / n);
     cout << "\nAverage Turnaround Time -- " << (tatavg / n);
     cout << "\n";
 
