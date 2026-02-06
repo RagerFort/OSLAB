@@ -1,0 +1,15 @@
+c++ code make a file prelim.cpp, that contains one input,  round robin, sjf, srtf, na function, 
+variable is are not using full of their name but acronym, burst time = bt
+variable in struct that is name process
+meron caculate of median or mean ang value ng burst time, time quantum for round robin, name struct - recommended time quantum
+4 function, rr sjf, srtf, rtq
+output is in the table, pid, arrival, burst, completion, turnaround, and waiting
+                        avg turaround time, avf, waiting time
+main, hindi na mag aask, fixed na sa main, bt at
+sequential order of is rr, sjf, srtf, main
+AT 4, 2, 3, 6, 1, 5, 8, 7
+BT 53, 43, 18, 16, 44, 73, 99, 27
+print is Recommend Time quantum:
+         rr table
+         sjf table
+         srtf table
