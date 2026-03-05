@@ -1,58 +1,54 @@
-#include<iostream>
-using namespace std;
+using System;
 
 class MemoryMVT {
-private:
-    int totalMemory, processes[10], numProcesses, remaining;
+    private int totalMemory;
+    private int[] processes = new int[10];
+    private int numProcesses = 0;
+    private int remaining = 0;
 
-public:
-    MemoryMVT() {
-        numProcesses = 0;
-        remaining = 0;
-    }
-
-    void getInput() {
-        cout << "\nEnter the total memory available (in Bytes): ";
-        cin >> totalMemory;
+    public void GetInput() {
+        Console.Write("\nEnter the total memory available (in Bytes): ");
+        totalMemory = int.Parse(Console.ReadLine());
         remaining = totalMemory;
     }
 
-    void allocate() {
+    public void Allocate() {
         char ch = 'y';
 
-        for(int i = 0; ch == 'y'; i++, numProcesses++) {
-            cout << "\nEnter memory required for process " << i+1 << " (in Bytes): ";
-            cin >> processes[i];
+        for (int i = 0; ch == 'y'; i++, numProcesses++) {
+            Console.Write($"\nEnter memory required for process {i + 1} (in Bytes): ");
+            processes[i] = int.Parse(Console.ReadLine());
 
-            if(processes[i] <= remaining) {
-                cout << "\nMemory is allocated for Process " << i+1;
+            if (processes[i] <= remaining) {
+                Console.WriteLine($"\nMemory is allocated for Process {i + 1}");
                 remaining -= processes[i];
             } else {
-                cout << "\nMemory is Full";
+                Console.WriteLine("\nMemory is Full");
                 break;
             }
 
-            cout << "\nDo you want to continue(y/n): ";
-            cin >> ch;
+            Console.Write("\nDo you want to continue(y/n): ");
+            ch = char.Parse(Console.ReadLine());
         }
     }
 
-    void displayResults() {
-        cout << "\n\nTotal Memory Available: " << totalMemory;
-        cout << "\n\nPROCESS\t\tMEMORY ALLOCATED";
+    public void DisplayResults() {
+        Console.WriteLine($"\n\nTotal Memory Available: {totalMemory}");
+        Console.WriteLine("\nPROCESS\t\tMEMORY ALLOCATED");
 
-        for(int i = 0; i < numProcesses; i++)
-            cout << "\n\t" << i+1 << "\t\t" << processes[i];
+        for (int i = 0; i < numProcesses; i++)
+            Console.WriteLine($"\t{i + 1}\t\t{processes[i]}");
 
-        cout << "\n\nTotal Memory Allocated is " << totalMemory - remaining;
-        cout << "\nTotal External Fragmentation is " << remaining;
+        Console.WriteLine($"\nTotal Memory Allocated is {totalMemory - remaining}");
+        Console.WriteLine($"Total External Fragmentation is {remaining}");
     }
-};
+}
 
-int main() {
-    MemoryMVT mem;
-    mem.getInput();
-    mem.allocate();
-    mem.displayResults();
-    return 0;
+class Program {
+    static void Main(string[] args) {
+        MemoryMVT mem = new MemoryMVT();
+        mem.GetInput();
+        mem.Allocate();
+        mem.DisplayResults();
+    }
 }
