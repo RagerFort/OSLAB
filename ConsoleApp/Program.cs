@@ -1,35 +1,58 @@
-﻿//Patrick Alde
-using System;
-using System.Diagnostics;
+﻿using System;
 
-class Program
-{
-    static void Main(string[] args)
-    {
-        try
-        {
-            int currentPid = Process.GetCurrentProcess().Id;
-            Console.WriteLine($"\nProcess ID is: {currentPid}");
+class MemoryMFT {
+    private int totalMemory, blockSize, numBlocks, extFrag;
+    private int[] processes = new int[10];
+    private int numProcesses;
 
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = "whoami"; 
-            startInfo.UseShellExecute = false; // Execute directly, not via cmd/shell
-            
+    public void GetInput() {
+        Console.Write("Enter the total memory available (in Bytes): ");
+        totalMemory = int.Parse(Console.ReadLine());
 
-            using (Process childProcess = Process.Start(startInfo))
-            {    
-                if (childProcess != null)
-                {
-                    childProcess.WaitForExit();
-                }
+        Console.Write("Enter the block size (in Bytes): ");
+        blockSize = int.Parse(Console.ReadLine());
+
+        numBlocks = totalMemory / blockSize;
+        extFrag = totalMemory - numBlocks * blockSize;
+
+        Console.Write("\nEnter the number of processes: ");
+        numProcesses = int.Parse(Console.ReadLine());
+
+        for (int i = 0; i < numProcesses; i++) {
+            Console.Write($"Enter memory required for process {i + 1} (in Bytes): ");
+            processes[i] = int.Parse(Console.ReadLine());
+        }
+    }
+
+    public void Allocate() {
+        int tif = 0, p = 0, i;
+
+        Console.WriteLine($"\nNo. of Blocks available in memory: {numBlocks}");
+        Console.WriteLine("\nPROCESS\tMEMORY REQUIRED\tALLOCATED\tINTERNAL FRAGMENTATION");
+
+        for (i = 0; i < numProcesses && p < numBlocks; i++) {
+            Console.Write($"\n {i + 1}\t\t{processes[i]}");
+            if (processes[i] > blockSize)
+                Console.Write("\t\tNO\t\t---");
+            else {
+                Console.Write($"\t\tYES\t\t{blockSize - processes[i]}");
+                tif += blockSize - processes[i];
+                p++;
             }
         }
-        catch (Exception ex)
-        {
-        
-            Console.WriteLine("Failed to start process.");
-            Console.WriteLine(ex.Message);
-            Environment.Exit(1);
-        }
+
+        if (i < numProcesses)
+            Console.WriteLine("\nMemory is Full, Remaining Processes cannot be accommodated");
+
+        Console.WriteLine($"\n\nTotal Internal Fragmentation is {tif}");
+        Console.WriteLine($"Total External Fragmentation is {extFrag}");
+    }
+}
+
+class Program {
+    static void Main(string[] args) {
+        MemoryMFT mem = new MemoryMFT();
+        mem.GetInput();
+        mem.Allocate();
     }
 }
